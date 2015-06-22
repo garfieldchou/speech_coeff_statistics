@@ -13,7 +13,16 @@ for line in fd:
     if (num_of_line%4) == 2: # Extract 2nd line of a frame
         fd_out.write(line)
         # create a dictionary to count codec type here
-        codec_type_counts[line[1]] = codec_type_counts.get(line[1],0)+1
+        if '3' == line[1]:
+            codec_type_counts['AMR'] = codec_type_counts.get('AMR',0)+1
+        elif '0' == line[1]:
+            codec_type_counts['FR'] = codec_type_counts.get('FR',0)+1
+        elif '1' == line[1]:
+            codec_type_counts['EFR'] = codec_type_counts.get('EFR',0)+1
+        elif '2' == line[1]:
+            codec_type_counts['HR'] = codec_type_counts.get('HR',0)+1
+        else:
+            codec_type_counts[line[1]] = codec_type_counts.get(line[1],0)+1
         # print codec_type_counts
     num_of_line = num_of_line+1
 # print num_of_line
@@ -23,3 +32,4 @@ print codec_type_counts
     # print i
     # fd_out.write('hello\n')
 fd_out.close()
+print "Please checkout the extraction file, 'extract.txt'."
