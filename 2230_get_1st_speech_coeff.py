@@ -7,6 +7,10 @@ except:
     exit()
 fd_out = open('extract.txt', 'w')
 
+def list_dict_key_value(dict, total_width):
+    for key, value in dict.items():
+        print str(value).rjust(total_width) + '\r' + key
+
 line_cursor = 1
 codec_type_counts = dict()
 amr_rx_type = dict()
@@ -43,9 +47,9 @@ for line in fd:
         else:
             codec_type_counts[line[1]] = codec_type_counts.get(line[1],0)+1
     line_cursor = line_cursor + 1
-print "\n# of frames for every codec type: \n", codec_type_counts
-print "\nAMR RX TYPE:"
-for key, value in amr_rx_type.items():
-    print key, value
+print "\n<# of frames for every codec type>"
+list_dict_key_value(codec_type_counts, 30)
+print "\n<AMR RX TYPE>"
+list_dict_key_value(amr_rx_type, 30)
 fd_out.close()
-print "Please checkout the extraction file, 'extract.txt'."
+print "\nPlease checkout the extraction file, 'extract.txt'."
