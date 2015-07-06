@@ -15,7 +15,7 @@ amr_wb_rx_type = dict()
 codec_rate = dict()
 codec_rate_wb = dict()
 for line in fd:
-    line = line.split()
+    line = line.split()[:4]  # We only need list[0]~list[3]
     if '0x03' == line[1]:
         if '00' == line[3]:
             amr_rx_type['Speech Good'] = amr_rx_type.get('Speech Good', 0)+1
