@@ -14,6 +14,7 @@ amr_rx_type = dict()
 amr_wb_rx_type = dict()
 codec_rate = dict()
 codec_rate_wb = dict()
+efr_frame_type = dict()
 for line in fd:
     line = line.split()[:4]  # We only need list[0]~list[3]
     if '0x03' == line[1]:
@@ -64,7 +65,14 @@ for line in fd:
             amr_wb_rx_type['No Data'] = amr_wb_rx_type.get('No Data', 0)+1    
         else:
             amr_wb_rx_type['Unknown'] = amr_wb_rx_type.get('Unknown', 0)+1
-
+    elif '0x04' == line[1]:
+        if ('02' == line[2]) or ('06' == line[2]):
+            efr_frame_type['Bad Frame'] = efr_frame_type.get('Bad Frame', 0)+1
+        elif ('00' == line[2]) or ('04' == line[2]):
+            efr_frame_type['Good Frame'] = efr_frame_type.get('Good Frame', 0)+1            
+        else:
+            efr_frame_type['Others'] = efr_frame_type.get('Others', 0)+1
+            
 if 0 != len(amr_rx_type):
     print "\n<AMR RX TYPE>"
     list_dict_key_value(amr_rx_type, 30)
@@ -75,3 +83,6 @@ if 0 != len(amr_wb_rx_type):
     list_dict_key_value(amr_wb_rx_type, 30)
     print "\n<Codec Types in Speech Good>"
     list_dict_key_value(codec_rate_wb, 30)
+if 0 != len(efr_frame_type):
+    print "\n<EFR FRAME TYPE>"
+    list_dict_key_value(efr_frame_type, 30)
